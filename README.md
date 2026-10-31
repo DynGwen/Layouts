@@ -1,4 +1,4 @@
-# Layouts 1.1.4 — English edition
+# Layouts 1.1.4
 
 Layouts arranges Mac windows by drag and drop. Move a window over one of the four floating targets and release to apply the layout.
 
