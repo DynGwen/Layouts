@@ -1,6 +1,6 @@
 import AppKit
 
-/// A native glass surface with a semantic, appearance-aware layout preview.
+/// A native glass surface with a light-gray layout preview.
 final class LayoutTargetCardView: NSView {
   let action: LayoutAction
   private let preview: LayoutTargetPreviewView
@@ -95,11 +95,13 @@ private final class SolidTargetBackgroundView: NSView {
 
 private final class LayoutTargetPreviewView: NSView {
   private let action: LayoutAction
+  private let diagramColor = NSColor(srgbRed: 0.8, green: 0.8, blue: 0.8, alpha: 1)
   var isHovered = false { didSet { needsDisplay = true } }
   var increaseContrast = false { didSet { needsDisplay = true } }
 
   override var isFlipped: Bool { true }
-  override var allowsVibrancy: Bool { true }
+  // Keep the diagram's light gray stable over glass and visual-effect materials.
+  override var allowsVibrancy: Bool { false }
 
   init(action: LayoutAction) {
     self.action = action
@@ -136,7 +138,7 @@ private final class LayoutTargetPreviewView: NSView {
       width: bounds.width - 36, height: bounds.height - (showsLabel ? 40 : 20)
     )
     let screenPath = NSBezierPath(roundedRect: miniature, xRadius: 5, yRadius: 5)
-    (increaseContrast ? NSColor.labelColor : NSColor.secondaryLabelColor).setStroke()
+    diagramColor.setStroke()
     screenPath.lineWidth = increaseContrast ? 1.5 : 1
     screenPath.stroke()
 
@@ -163,7 +165,7 @@ private final class LayoutTargetPreviewView: NSView {
       }
       let fillColor = isHovered
         ? NSColor.controlAccentColor
-        : NSColor.labelColor.withAlphaComponent(increaseContrast ? 1 : 0.72)
+        : diagramColor
       fillColor.setFill()
       NSBezierPath(roundedRect: target, xRadius: 3, yRadius: 3).fill()
     }

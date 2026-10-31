@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.4 — Menu bar toggle and light-gray previews
+
+- Let the status-button action alone toggle the panel: the first click opens it and the next closes it. Key-focus changes during status-button tracking no longer dismiss it before the action runs.
+- Exclude clicks inside the status button's screen bounds from both outside-click monitors. Handle monitored events synchronously to avoid delayed dismissal of a newly opened panel.
+- Keep dismissal on outside clicks, Escape, and activation of another application.
+- Supply separate FR and EN source archives with fixed edition metadata.
+- Draw the four layout diagrams and their screen outlines in opaque light gray (#CCCCCC) in both appearances.
+- Disable vibrancy for preview content so materials do not alter the requested gray. Retain accent-colored hover feedback, adaptive captions, and stronger borders for Increase Contrast.
+
+Native compilation and visual QA remain pending on a Mac.
+
 ## 1.1.3 — EvniaControl sliders and fixed-language editions
 
 - Reuse EvniaControl's TahoePillSlider component for the two menu controls, adding only a macOS 26 availability guard for its glass thumb.

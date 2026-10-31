@@ -9,7 +9,7 @@ private final class LayoutsMenuPanel: NSPanel {
 
 /// Owns the optional status item and its compact, interactive glass panel.
 @MainActor
-final class MenuBarController: NSObject, NSWindowDelegate {
+final class MenuBarController: NSObject {
   private let preferences: AppPreferences
   private let onSettings: () -> Void
   private let state = AccessibilityStatus.shared
@@ -25,7 +25,6 @@ final class MenuBarController: NSObject, NSWindowDelegate {
   private var globalMouseMonitor: Any?
   private var localEventMonitor: Any?
   private var layoutTask: Task<Void, Never>?
-  private var menuVisibleAtButtonMouseDown = false
 
   init(preferences: AppPreferences, onSettings: @escaping () -> Void) {
     self.preferences = preferences
@@ -40,7 +39,6 @@ final class MenuBarController: NSObject, NSWindowDelegate {
     panel.isReleasedWhenClosed = false
     panel.isFloatingPanel = true
     panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary, .transient]
-    panel.delegate = self
     panel.contentView = NSHostingView(
       rootView: MenuContentView(
         preferences: preferences, state: state,
@@ -65,6 +63,12 @@ final class MenuBarController: NSObject, NSWindowDelegate {
       .store(in: &subscriptions)
 
     installEventMonitors()
+    NSWorkspace.shared.notificationCenter.addObserver(
+      self,
+      selector: #selector(activeApplicationDidChange(_:)),
+      name: NSWorkspace.didActivateApplicationNotification,
+      object: nil
+    )
   }
 
   func stop() {
@@ -74,6 +78,9 @@ final class MenuBarController: NSObject, NSWindowDelegate {
     if let localEventMonitor { NSEvent.removeMonitor(localEventMonitor) }
     globalMouseMonitor = nil
     localEventMonitor = nil
+    NSWorkspace.shared.notificationCenter.removeObserver(
+      self, name: NSWorkspace.didActivateApplicationNotification, object: nil
+    )
     closeMenu()
     if let statusItem { NSStatusBar.system.removeStatusItem(statusItem) }
     statusItem = nil
@@ -112,10 +119,8 @@ final class MenuBarController: NSObject, NSWindowDelegate {
   }
 
   @objc private func toggleMenu() {
-    // A status-button click can resign the panel's key status before mouse-up.
-    let shouldClose = panel.isVisible || menuVisibleAtButtonMouseDown
-    menuVisibleAtButtonMouseDown = false
-    if shouldClose {
+    // Only this action toggles the panel for a status-button click.
+    if panel.isVisible {
       closeMenu()
       return
     }
@@ -132,7 +137,12 @@ final class MenuBarController: NSObject, NSWindowDelegate {
     statusItem?.button?.highlight(false)
   }
 
-  func windowDidResignKey(_ notification: Notification) {
+  @objc private func activeApplicationDidChange(_ notification: Notification) {
+    guard let application = notification.userInfo?[
+      NSWorkspace.applicationUserInfoKey
+    ] as? NSRunningApplication,
+      application.processIdentifier != ProcessInfo.processInfo.processIdentifier
+    else { return }
     closeMenu()
   }
 
@@ -166,21 +176,25 @@ final class MenuBarController: NSObject, NSWindowDelegate {
   private func installEventMonitors() {
     globalMouseMonitor = NSEvent.addGlobalMonitorForEvents(
       matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown]
-    ) { [weak self] _ in
-      Task { @MainActor [weak self] in self?.closeMenu() }
+    ) { [weak self] event in
+      // AppKit runs both monitors on the main thread. Handle the event now so
+      // an old outside click cannot close a panel opened by a later click.
+      MainActor.assumeIsolated {
+        _ = self?.handleEvent(event)
+      }
     }
     localEventMonitor = NSEvent.addLocalMonitorForEvents(
       matching: [.leftMouseDown, .rightMouseDown, .otherMouseDown, .keyDown]
     ) { [weak self] event in
       // Keep the SDK's non-Sendable NSEvent in AppKit's main-thread callback.
       let consumed = MainActor.assumeIsolated {
-        self?.handleLocalEvent(event) ?? false
+        self?.handleEvent(event) ?? false
       }
       return consumed ? nil : event
     }
   }
 
-  private func handleLocalEvent(_ event: NSEvent) -> Bool {
+  private func handleEvent(_ event: NSEvent) -> Bool {
     if event.type == .keyDown {
       if event.keyCode == 53, panel.isVisible {
         closeMenu()
@@ -188,11 +202,18 @@ final class MenuBarController: NSObject, NSWindowDelegate {
       }
       return false
     }
-    if event.window === statusItem?.button?.window {
-      menuVisibleAtButtonMouseDown = panel.isVisible
-      return false
-    }
-    if event.window !== panel { closeMenu() }
+    // Do not dismiss on the icon's mouse-down: its mouse-up action must see
+    // the current visibility, even when AppKit has already moved key focus.
+    if event.window !== panel, !isStatusButtonEvent(event) { closeMenu() }
     return false
+  }
+
+  private func isStatusButtonEvent(_ event: NSEvent) -> Bool {
+    guard let button = statusItem?.button, let buttonWindow = button.window
+    else { return false }
+    let point = event.window?.convertPoint(toScreen: event.locationInWindow)
+      ?? event.locationInWindow
+    let frame = buttonWindow.convertToScreen(button.convert(button.bounds, to: nil))
+    return frame.contains(point)
   }
 }

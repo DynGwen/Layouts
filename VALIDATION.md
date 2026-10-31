@@ -1,4 +1,4 @@
-# Validation — Layouts 1.1.3
+# Validation — Layouts 1.1.4
 
 L’environnement de préparation est sous Linux, sans Swift, Xcode ni SDK macOS. Aucun exécutable macOS n’est fourni. La compilation native et les essais visuels restent à effectuer sur un Mac.
 
@@ -18,8 +18,11 @@ Les tests Swift vérifient les calculs de disposition, le placement des cibles, 
 
 ## Essais restant à effectuer
 
+- Depuis une autre application, cliquer une fois sur l’icône de Layouts : le panneau doit s’ouvrir immédiatement. Cliquer à nouveau : il doit se fermer sans se rouvrir. Répéter plusieurs fois, lentement puis rapidement, et après avoir utilisé un curseur du panneau.
+- Vérifier la fermeture par Échap, un clic extérieur (dans une autre application ou dans les options de Layouts) et le changement d’application avec Commande-Tab. Le clic suivant sur l’icône doit rouvrir le panneau. Répéter après masquage puis réaffichage de l’icône et sur chaque écran.
 - Vérifier que les deux curseurs du menu ont la même piste et poignée que dans EvniaControl. Régler la marge de 0 à 40 points et la taille de 30 à 100 %, avec les pas prévus.
 - Déplacer une fenêtre sur chacune des quatre cibles et vérifier les aperçus et les positions.
+- Vérifier que les formes et contours des quatre miniatures sont gris clair (#CCCCCC) en modes clair et sombre, y compris avec réduction de transparence et augmentation du contraste. Au survol, la forme doit prendre la couleur d’accent.
 - Ouvrir les options : seules les deux cases de visibilité de l’icône et de lancement à l’ouverture de session doivent apparaître. Les déplacer, fermer et rouvrir : la fenêtre doit être recentrée sur l’écran du pointeur.
 - Vérifier le lancement à l’ouverture de session et le masquage de l’icône. Relancer l’application pour rouvrir les options quand l’icône est masquée.
 - Vérifier la version FR sur un système anglais et la version EN sur un système français. Une ancienne préférence de langue doit rester sans effet. Aucun sélecteur de langue ne doit apparaître.
