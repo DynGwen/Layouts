@@ -1,4 +1,6 @@
-# Layouts 1.1.4
+# Layouts 1.1.4 — Édition française
+
+Cette archive compile l’édition française, avec le fond des quatre visuels transparent et les motifs d’origine. L’interface reste en français quelle que soit la langue de macOS.
 
 Layouts organise les fenêtres du Mac par glisser-déposer. Déplacez une fenêtre sur l’une des quatre cibles flottantes et relâchez la souris pour appliquer la disposition.
 
@@ -37,6 +39,12 @@ Le script copie uniquement la traduction de l’édition dans l’application. L
 | Centré | Pourcentage de la largeur et de la hauteur, centré sur les deux axes |
 
 Les cibles suivent l’écran du pointeur et respectent le Dock et la barre des menus. Les fenêtres soumises à une taille minimale sont repositionnées après redimensionnement.
+
+## Fond transparent des quatre visuels
+
+Le fond de chacune des quatre cartes flottantes (Plein écran, Gauche, Droite et Centré) utilise le verre transparent `clear` sur macOS 26 et ultérieur. Les motifs conservent exactement leur dessin d’origine : gris clair opaque (#CCCCCC), mêmes contours et même couleur d’accent au survol. Les légendes sont inchangées. Le fond du menu reste celui d’origine.
+
+**Augmenter le contraste** rétablit le matériau `regular` pour les fonds des cartes ; **Réduire la transparence** rétablit leur fond opaque. Les anciens systèmes conservent leur matériau de repli. Le rendu reste à vérifier sur un Mac.
 
 ## Liquid Glass et accessibilité
 

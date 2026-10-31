@@ -1,6 +1,20 @@
-# Validation — Layouts 1.1.4
+# Validation — Layouts 1.1.4 — Édition française
 
 L’environnement de préparation est sous Linux, sans Swift, Xcode ni SDK macOS. Aucun exécutable macOS n’est fourni. La compilation native et les essais visuels restent à effectuer sur un Mac.
+
+## Modification actuelle — fond des quatre visuels
+
+Seul le fond des quatre cartes flottantes passe au matériau transparent `clear`. Le code qui dessine les motifs a été rétabli à l’identique par comparaison octet par octet avec l’archive initiale : gris clair opaque (#CCCCCC), contours, légendes et survol d’origine. Le fond du menu et les contrôleurs de fenêtres correspondent également exactement aux sources initiales.
+
+L’augmentation du contraste utilise un fond `regular` pour les cartes ; la réduction de transparence utilise un fond opaque. Ces réglages modifient le fond des cartes. Les motifs conservent leur remplissage opaque d’origine.
+
+Contrôles de cette modification : comparaison des sources (un seul fichier Swift modifié, `LayoutTargetCardView.swift`), restauration exacte du dessin des motifs et du menu, syntaxe des trois scripts, métadonnées de langue, 20 clés de traduction et intégrité des deux archives. Les sources Swift sont identiques dans les deux éditions. Compilation, tests Swift et rendu natif restent à vérifier sur Mac.
+
+Sur Mac, vérifier que le bureau et les fenêtres se voient à travers les fonds des quatre cartes, tandis que les motifs gardent le même gris opaque et le même survol qu’avant. Vérifier le menu, le glisser-déposer, les modes clair et sombre et le basculement des deux réglages d’accessibilité pendant l’affichage.
+
+## Vérifications historiques — version 1.1.4
+
+Les vérifications ci-dessous concernent la version de départ ; elles n’ont pas toutes été répétées pour cette correction.
 
 Les contrôles statiques couvrent les scripts, les métadonnées, les références des sources et ressources du projet Xcode, les tables de traduction et l’intégrité des archives. Le composant TahoePillSlider est comparé au fichier d’EvniaControl ; seul le garde de disponibilité macOS 26 est ajouté. Les options sont vérifiées pour contenir exactement deux cases, sans curseur, sélecteur de langue ni bouton de permission.
 

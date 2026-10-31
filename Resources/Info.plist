@@ -3,10 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>fr</string>
 	<key>CFBundleLocalizations</key>
 	<array>
-		<string>en</string>
+		<string>fr</string>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>Layouts</string>
@@ -33,6 +33,6 @@
 	<key>NSSupportsAutomaticGraphicsSwitching</key>
 	<true/>
 	<key>LayoutsLanguage</key>
-	<string>en</string>
+	<string>fr</string>
 </dict>
 </plist>

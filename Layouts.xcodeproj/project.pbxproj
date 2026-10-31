@@ -235,7 +235,7 @@
 			};
 			buildConfigurationList = 344629A1E4F899A26953FBED /* Build configuration list for PBXProject "Layouts" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (en, fr, Base);
 			mainGroup = 5C999E731352905727541C3C;

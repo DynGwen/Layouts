@@ -1,4 +1,6 @@
-# Layouts 1.1.4 — English edition
+# Layouts 1.1.4 — French edition
+
+This archive builds the French interface with transparent card backgrounds and the original opaque motifs. The interface stays in French regardless of the macOS language. See [the French instructions](README.fr.md).
 
 Layouts arranges Mac windows by drag and drop. Move a window over one of the four floating targets and release to apply the layout.
 
@@ -35,6 +37,12 @@ The shell build copies only the edition's localization into the app. Both transl
 | Centered | Chosen percentage of width and height, centered on both axes |
 
 The destination display follows the pointer. `NSScreen.visibleFrame` respects the menu bar and Dock. Apps can enforce their own minimum window sizes; Layouts then corrects the layout anchor.
+
+## Transparent backgrounds for the four visuals
+
+The background of each floating card (Full Screen, Left, Right and Centered) uses `clear` glass on macOS 26 and later. The motifs retain their original drawing exactly: opaque light gray (#CCCCCC), the same outlines, and the original accent-colored hover. Captions are unchanged. The menu keeps its original background.
+
+Increase Contrast restores `regular` material for the card backgrounds; Reduce Transparency restores their opaque background. Older systems retain their fallback material. Rendering still needs verification on a Mac.
 
 ## Liquid Glass and accessibility
 

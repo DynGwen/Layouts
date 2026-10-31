@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased — Transparent card backgrounds, original motifs
+
+- Use clear Liquid Glass only for the backgrounds of the four floating layout cards. Keep the menu background and window controllers unchanged.
+- Restore the original motif drawing code exactly, including opaque light-gray fills (#CCCCCC), outlines, captions, geometry and accent-colored hover.
+- Use regular card backgrounds for Increase Contrast and opaque card backgrounds for Reduce Transparency. Refresh the card material when either setting changes.
+
+Native compilation and visual QA remain pending on a Mac.
+
 ## 1.1.4 — Menu bar toggle and light-gray previews
 
 - Let the status-button action alone toggle the panel: the first click opens it and the next closes it. Key-focus changes during status-button tracking no longer dismiss it before the action runs.

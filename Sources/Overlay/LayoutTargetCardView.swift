@@ -6,6 +6,7 @@ final class LayoutTargetCardView: NSView {
   private let preview: LayoutTargetPreviewView
   private var surface: NSView?
   private var reducedTransparency: Bool?
+  private var increasedContrast: Bool?
 
   var isHovered = false {
     didSet { preview.isHovered = isHovered }
@@ -36,8 +37,10 @@ final class LayoutTargetCardView: NSView {
 
   func updateAccessibility(reduceTransparency: Bool, increaseContrast: Bool) {
     preview.increaseContrast = increaseContrast
-    guard reducedTransparency != reduceTransparency else { return }
+    guard reducedTransparency != reduceTransparency
+      || increasedContrast != increaseContrast else { return }
     reducedTransparency = reduceTransparency
+    increasedContrast = increaseContrast
 
     if #available(macOS 26.0, *), let glass = surface as? NSGlassEffectView {
       glass.contentView = nil
@@ -52,7 +55,9 @@ final class LayoutTargetCardView: NSView {
       background = solid
     } else if #available(macOS 26.0, *) {
       let glass = NSGlassEffectView(frame: bounds)
-      glass.style = .regular
+      // Only the backing of each card is transparent. Its original opaque
+      // layout motif is drawn unchanged by LayoutTargetPreviewView.
+      glass.style = increaseContrast ? .regular : .clear
       glass.cornerRadius = 15
       // The non-activating overlay must pass all input to the dragged window.
       // Hover feedback is drawn from global mouse events, rather than clicks.
