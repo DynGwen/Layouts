@@ -11,12 +11,12 @@ enum LayoutAction: CaseIterable, Equatable {
     [.full, .left, .right, .centered]
   }
 
-  var displayName: String {
+  func displayName(in language: AppLanguage) -> String {
     switch self {
-    case .full: return "Full Screen"
-    case .left: return "Left"
-    case .right: return "Right"
-    case .centered: return "Centered"
+    case .full: return L10n.string(.full, language: language)
+    case .left: return L10n.string(.left, language: language)
+    case .right: return L10n.string(.right, language: language)
+    case .centered: return L10n.string(.centered, language: language)
     }
   }
 }

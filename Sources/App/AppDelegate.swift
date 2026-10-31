@@ -54,6 +54,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationWillTerminate(_ notification: Notification) {
+    menuBarController?.stop()
     windowDragMonitor?.stop()
     applicationTracker.stop()
   }

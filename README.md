@@ -1,153 +1,61 @@
-# Layouts 1.0.5
+# Layouts 1.1.3
 
-Layouts is a small native macOS application designed for visual window management through drag and drop.
+Layouts arranges Mac windows by drag and drop. Move a window over one of the four floating targets and release to apply the layout.
 
-When a window is moved, four translucent white targets automatically appear on the right side of the screen. Release the window over the desired target to apply the corresponding layout.
+[Documentation française](README.fr.md) · [Changes](CHANGELOG.md) · [Validation](VALIDATION.md)
 
-## How it works
+## Menu and sliders
 
-```text
-Move a window
-      │
-      ▼
-Layouts detects the movement
-      │
-      ▼
-4 targets appear on the right
-      │
-      ├── Full Screen
-      ├── Left
-      ├── Right
-      └── Centered (adjustable percentage)
-      │
-      ▼
-Hover target → highlight
-      │
-      ▼
-Release → apply layout
-```
+The compact menu uses the same `TahoePillSlider` component as EvniaControl: a 6-point track and a rounded 20 × 16-point Liquid Glass thumb. The two controls adjust window margin (0–40 points) and centered size (30–100%, in 5% steps). Their values and layout previews update together. Defaults remain 12 points and 60%.
 
-The overlay is transparent, non-activating, and lets mouse events pass through. It does not take focus or interrupt the window drag.
+Click the menu bar icon to open the panel. A second click, an outside click, or Escape closes it. Options and Quit remain in the footer. Accessibility permission help appears in the menu when needed.
 
-## Layouts
+## Options
 
-| Target | Geometry |
+The compact options window contains exactly two settings:
+
+- Show menu bar icon.
+- Launch Layouts at login.
+
+The window is geometrically centered in the usable area of the pointer's display each time it opens. If the menu bar icon is hidden, opening `Layouts.app` again opens Options. A login-service failure can display an explanatory message under the two settings.
+
+## Separate French and English editions
+
+The FR archive builds the French edition; the EN archive builds the English edition. The language is fixed by that edition, regardless of system language or language preferences saved by older releases. There is no language selector or language preference.
+
+The shell build copies only the edition's localization into the app. Both translation tables remain in the shared source project for validation and development. Switching edition means building the other archive. Existing margin, size, icon and login preferences are retained.
+
+## Window layouts
+
+| Target | Result |
 | --- | --- |
-| Full Screen | Entire usable screen area, minus the configured margin |
-| Left | Left half of the usable screen height |
-| Right | Right half of the usable screen height |
-| Centered | Adjustable percentage of the full-screen width and height, centered horizontally and vertically |
+| Full Screen | Usable screen area minus the margin; does not enter a new macOS full-screen Space |
+| Left | Left half of the usable area |
+| Right | Right half of the usable area |
+| Centered | Chosen percentage of width and height, centered on both axes |
 
-The Centered layout uses the percentage configured in Settings for both width and height. The default is `60% × 60%`. Its horizontal and vertical centers exactly match the center of the usable screen area.
+The destination display follows the pointer. `NSScreen.visibleFrame` respects the menu bar and Dock. Apps can enforce their own minimum window sizes; Layouts then corrects the layout anchor.
 
-The usable area is based on `NSScreen.visibleFrame`, so the menu bar and Dock are automatically respected.
+## Liquid Glass and accessibility
 
-## Version 1.0.5
+On macOS 26 and later, including macOS 27, the floating targets and menu use native Liquid Glass effects. The slider component is reused from EvniaControl, with an availability guard for older systems. macOS 13–15 use fallback materials. Reduce Transparency, Increase Contrast and Reduce Motion are respected. The overlay passes drag input through without taking focus.
 
-Version 1.0.5 provides a fully English user interface while keeping the same behavior as version 1.0.4.
+On first launch, allow Layouts in **System Settings → Privacy & Security → Accessibility**. Screen Recording permission is not required.
 
-The Centered layout size remains adjustable from `30%` to `100%` in `5%` increments, with `60%` as the default. The same percentage is applied to width and height, and centering is recalculated after any size constraints imposed by the target application.
+## Build on a Mac
 
-## Settings
+Runtime requirement: macOS 13 or later. The shell build needs Swift 6.4 or later and the macOS 27 SDK or later, resolvable through `xcrun`. It does not call `xcodebuild` or require the full Xcode application.
 
-The application interface is entirely in English:
-
-- window margin: `0 to 40 pt`;
-- centered layout size: `30 to 100%`, in `5%` increments;
-- show or hide the menu bar icon;
-- launch Layouts at login;
-- check Accessibility permission.
-
-When the menu bar icon is hidden, Layouts continues to run in the background. Launching `Layouts.app` again from Applications simply reopens the Settings window.
-
-## No keyboard shortcuts
-
-Layouts 1.0.5 does not include a keyboard shortcut manager. The former Carbon hotkey code is not part of the project.
-
-Usage relies only on:
-
-1. dragging a window onto one of the visual targets;
-2. the menu bar menu to open Settings or quit the application.
-
-## App icon
-
-A dedicated macOS icon is included in `Resources/AppIcon.icns` and bundled with the application.
-
-## Multiple displays
-
-The overlay follows the display containing the mouse pointer. If a window is moved from one display to another and dropped onto a target, the geometry is calculated from the destination display.
-
-## Persisted data
-
-Only these preferences are persisted:
-
-- margin width;
-- centered layout percentage;
-- menu bar icon visibility;
-- launch-at-login state, managed by macOS.
-
-No window position is saved to disk.
-
-## Requirements
-
-- macOS 13 or later;
-- Accessibility permission;
-- Xcode or Xcode Command Line Tools to build from source.
-
-Screen Recording permission is not required.
-
-## Build
-
-From Terminal on macOS:
+From the extracted edition's source directory:
 
 ```bash
-cd Layouts-1.0.5
-./build.sh
-open build/Layouts.app
+./test-geometry.sh
+./test-localization.sh
+./build.sh && open build/Layouts.app
 ```
 
-The build script uses ad hoc signing by default. To make Accessibility permission more stable across rebuilds, you can use a persistent Apple Development identity:
+If your extractor removes executable permissions, run `chmod +x *.sh` first. The script compiles for the current architecture, verifies the executable, signs the app, and publishes it only after success. A failed build preserves an existing app. Ad hoc signing is the default; `CODE_SIGN_IDENTITY` can select an Apple Development identity.
 
-```bash
-CODE_SIGN_IDENTITY="Apple Development: Your Name (...)" ./build.sh
-```
+Xcode users can also open `Layouts.xcodeproj` and build the shared Layouts scheme. No third-party dependencies or network services are used by the application.
 
-You can also open `Layouts.xcodeproj` directly in Xcode.
-
-## First launch
-
-Layouts requests Accessibility permission. If needed, open:
-
-**System Settings → Privacy & Security → Accessibility**
-
-## Architecture
-
-```text
-Global mouse events
-        │
-        ▼
-WindowDragMonitor ───────────────┐
-        │                        │
-        ▼                        ▼
-OverlayWindowController      WindowEngine
-        │                   /      |       \
-        ▼                  /       |        \
-LayoutOverlayView      AX client  ScreenResolver  LayoutEngine
-        │                                        │
-        └── hovered target                        └── CGRect
-```
-
-Source code, type names, method names, and comments are in English. All user-visible strings are also in English in version 1.0.5.
-
-## Current scope
-
-Layouts 1.0.5 intentionally does not include:
-
-- keyboard shortcuts;
-- saving or restoring window positions;
-- custom layouts;
-- a radial menu;
-- telemetry or network access;
-- third-party dependencies.
-
-Some applications enforce minimum window sizes. Layouts requests the target geometry from macOS, but the target application may still apply its own constraints.
+These are source archives. This preparation environment runs Linux without Swift or macOS SDKs; native compilation and visual behavior still require verification on a Mac. Static checks and simulated build checks are described in `VALIDATION.md`.

@@ -145,6 +145,86 @@ enum GeometrySmokeTests {
       fatalError("Point-based ScreenResolver selected the wrong display")
     }
 
-    print("Layouts geometry smoke tests passed")
+    testOverlayGeometry()
+    testSettingsCentering()
+    testMenuPlacement()
+    print("Layouts geometry smoke tests passed (window layouts, overlay, settings centering)")
+  }
+
+  private static func testOverlayGeometry() {
+    let bounds = CGRect(x: 0, y: 0, width: 126, height: 410)
+    let zones = LayoutOverlayGeometry.dropZones(in: bounds)
+    guard zones.map(\.action) == LayoutAction.dropTargets else {
+      fatalError("Overlay: target order changed")
+    }
+    for (index, zone) in zones.enumerated() {
+      expectRect(
+        zone.frame,
+        CGRect(x: 10, y: 10 + CGFloat(index) * 100, width: 106, height: 90),
+        "Overlay target \(index)"
+      )
+      guard bounds.contains(zone.frame) else {
+        fatalError("Overlay: a target is outside the panel")
+      }
+      for other in zones.dropFirst(index + 1) {
+        guard !zone.frame.intersects(other.frame) else {
+          fatalError("Overlay: drop targets overlap")
+        }
+      }
+    }
+
+    // Negative display coordinates, menu bar/Dock insets, and a short screen.
+    for visible in [
+      CGRect(x: -1440, y: 40, width: 1440, height: 836),
+      CGRect(x: 120, y: -300, width: 280, height: 220)
+    ] {
+      let screen = ScreenGeometry(id: 3, frame: visible, visibleFrame: visible)
+      let panel = LayoutOverlayGeometry.panelFrame(on: screen)
+      guard visible.contains(panel), approximatelyEqual(panel.midY, visible.midY) else {
+        fatalError("Overlay: panel is not centered within the usable display")
+      }
+      let localBounds = CGRect(origin: .zero, size: panel.size)
+      let compactZones = LayoutOverlayGeometry.dropZones(in: localBounds)
+      guard compactZones.count == 4,
+        compactZones.allSatisfy({ localBounds.contains($0.frame) && $0.frame.height > 0 })
+      else {
+        fatalError("Overlay: compact targets do not fit the panel")
+      }
+    }
+    guard LayoutOverlayGeometry.dropZones(in: .zero).isEmpty else {
+      fatalError("Overlay: empty bounds should have no targets")
+    }
+  }
+
+  private static func testSettingsCentering() {
+    // Match the placement used every time SettingsWindowController.show() runs.
+    let usable = CGRect(x: -1920, y: 48, width: 1920, height: 1008)
+    for size in [CGSize(width: 440, height: 162), CGSize(width: 600, height: 240)] {
+      let origin = LayoutEngine.anchoredOrigin(
+        for: .centered, targetFrame: usable, actualSize: size
+      )
+      let frame = CGRect(origin: origin, size: size)
+      guard approximatelyEqual(frame.midX, usable.midX),
+        approximatelyEqual(frame.midY, usable.midY)
+      else {
+        fatalError("Settings: window is not geometrically centered on both axes")
+      }
+    }
+  }
+
+  private static func testMenuPlacement() {
+    let visible = CGRect(x: -1440, y: 40, width: 1440, height: 836)
+    let size = CGSize(width: 340, height: 420)
+    let positions: [CGFloat] = [-1430, -720, -10]
+    for x in positions {
+      let anchor = CGRect(x: x - 10, y: visible.maxY, width: 20, height: 24)
+      let frame = MenuPanelGeometry.frame(for: size, anchoredTo: anchor, in: visible)
+      guard visible.insetBy(dx: 8, dy: 8).contains(frame), frame.maxY <= anchor.minY - 8 else {
+        fatalError("Menu: panel extends outside the usable display or overlaps its anchor")
+      }
+      if x == -720, !approximatelyEqual(frame.midX, anchor.midX) {
+        fatalError("Menu: panel is not aligned with its status item")
+      }
+    }
   }
 }

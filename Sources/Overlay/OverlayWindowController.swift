@@ -3,13 +3,12 @@ import AppKit
 final class OverlayWindowController {
   private let panel: NSPanel
   private let overlayView: LayoutOverlayView
-  private var currentScreenID: UInt32?
 
   init() {
     let initialFrame = CGRect(x: 0, y: 0, width: 126, height: 410)
     overlayView = LayoutOverlayView(frame: initialFrame)
 
-    panel = NSPanel(
+    panel = LayoutOverlayPanel(
       contentRect: initialFrame,
       styleMask: [.borderless, .nonactivatingPanel],
       backing: .buffered,
@@ -36,10 +35,8 @@ final class OverlayWindowController {
   }
 
   func show(on screen: ScreenGeometry) {
-    if currentScreenID != screen.id || !panel.isVisible {
-      position(on: screen)
-      currentScreenID = screen.id
-    }
+    // Re-evaluate even on the same display after a Dock or resolution change.
+    position(on: screen)
 
     guard !panel.isVisible else {
       return
@@ -48,6 +45,11 @@ final class OverlayWindowController {
     overlayView.hoveredAction = nil
     panel.alphaValue = 0
     panel.orderFrontRegardless()
+
+    if NSWorkspace.shared.accessibilityDisplayShouldReduceMotion {
+      panel.alphaValue = 1
+      return
+    }
 
     NSAnimationContext.runAnimationGroup { context in
       context.duration = 0.12
@@ -60,7 +62,6 @@ final class OverlayWindowController {
       return
     }
 
-    currentScreenID = nil
     overlayView.hoveredAction = nil
     panel.alphaValue = 0
     panel.orderOut(nil)
@@ -80,18 +81,14 @@ final class OverlayWindowController {
   }
 
   private func position(on screen: ScreenGeometry) {
-    let visible = screen.visibleFrame
-    let sideInset: CGFloat = 18
-    let width: CGFloat = 126
-    let preferredHeight: CGFloat = 410
-    let height = min(preferredHeight, max(260, visible.height - 40))
-
-    let frame = CGRect(
-      x: visible.maxX - width - sideInset,
-      y: visible.midY - height / 2,
-      width: width,
-      height: height
-    )
-    panel.setFrame(frame, display: true)
+    let frame = LayoutOverlayGeometry.panelFrame(on: screen)
+    if panel.frame != frame {
+      panel.setFrame(frame, display: true)
+    }
   }
+}
+
+private final class LayoutOverlayPanel: NSPanel {
+  override var canBecomeKey: Bool { false }
+  override var canBecomeMain: Bool { false }
 }

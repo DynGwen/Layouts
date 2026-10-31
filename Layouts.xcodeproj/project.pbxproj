@@ -27,7 +27,15 @@
 		A10000000000000000000002 /* LayoutOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000002 /* LayoutOverlayView.swift */; };
 		A10000000000000000000003 /* OverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* OverlayWindowController.swift */; };
 		A10000000000000000000004 /* WindowDragMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* WindowDragMonitor.swift */; };
+		A10000000000000000000005 /* LayoutOverlayGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* LayoutOverlayGeometry.swift */; };
+		A10000000000000000000006 /* LayoutTargetCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000006 /* LayoutTargetCardView.swift */; };
+		A10000000000000000000007 /* AppLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000007 /* AppLanguage.swift */; };
+		A10000000000000000000008 /* L10n.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000008 /* L10n.swift */; };
+		A10000000000000000000009 /* MenuContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000000000000000000009 /* MenuContentView.swift */; };
+		A1000000000000000000000A /* MenuPanelGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000A /* MenuPanelGeometry.swift */; };
 		B10000000000000000000001 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = B20000000000000000000001 /* AppIcon.icns */; };
+		B10000000000000000000002 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B30000000000000000000001 /* Localizable.strings */; };
+		A1000000000000000000000B /* TahoePillSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000000B /* TahoePillSlider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,7 +62,16 @@
 		A20000000000000000000002 /* LayoutOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutOverlayView.swift; sourceTree = "<group>"; };
 		A20000000000000000000003 /* OverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayWindowController.swift; sourceTree = "<group>"; };
 		A20000000000000000000004 /* WindowDragMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowDragMonitor.swift; sourceTree = "<group>"; };
+		A20000000000000000000005 /* LayoutOverlayGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutOverlayGeometry.swift; sourceTree = "<group>"; };
+		A20000000000000000000006 /* LayoutTargetCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutTargetCardView.swift; sourceTree = "<group>"; };
+		A20000000000000000000007 /* AppLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLanguage.swift; sourceTree = "<group>"; };
+		A20000000000000000000008 /* L10n.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = L10n.swift; sourceTree = "<group>"; };
+		A20000000000000000000009 /* MenuContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuContentView.swift; sourceTree = "<group>"; };
+		A2000000000000000000000A /* MenuPanelGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPanelGeometry.swift; sourceTree = "<group>"; };
 		B20000000000000000000001 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		B20000000000000000000002 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B20000000000000000000003 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A2000000000000000000000B /* TahoePillSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TahoePillSlider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				29846AE171760F47BC1955C2 /* LayoutAction.swift */,
+				A20000000000000000000007 /* AppLanguage.swift */,
+				A20000000000000000000008 /* L10n.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +165,8 @@
 				A20000000000000000000002 /* LayoutOverlayView.swift */,
 				A20000000000000000000003 /* OverlayWindowController.swift */,
 				A20000000000000000000004 /* WindowDragMonitor.swift */,
+				A20000000000000000000005 /* LayoutOverlayGeometry.swift */,
+				A20000000000000000000006 /* LayoutTargetCardView.swift */,
 			);
 			path = Overlay;
 			sourceTree = "<group>";
@@ -156,6 +177,9 @@
 				7CCA130B9E012E33B476F034 /* MenuBarController.swift */,
 				A44D9E0DA1D19C81796D1CDA /* SettingsView.swift */,
 				3C3DAE317D14578B85C4BFA1 /* SettingsWindowController.swift */,
+				A20000000000000000000009 /* MenuContentView.swift */,
+				A2000000000000000000000A /* MenuPanelGeometry.swift */,
+				A2000000000000000000000B /* TahoePillSlider.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -165,6 +189,7 @@
 			children = (
 				51570F093954B65F706F7C19 /* Info.plist */,
 				B20000000000000000000001 /* AppIcon.icns */,
+				B30000000000000000000001 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -210,9 +235,9 @@
 			};
 			buildConfigurationList = 344629A1E4F899A26953FBED /* Build configuration list for PBXProject "Layouts" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = fr;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
-			knownRegions = (fr, Base);
+			knownRegions = (en, fr, Base);
 			mainGroup = 5C999E731352905727541C3C;
 			productRefGroup = 6D159F361021D92BC3E10E55 /* Products */;
 			projectDirPath = "";
@@ -229,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10000000000000000000001 /* AppIcon.icns in Resources */,
+				B10000000000000000000002 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,10 +286,29 @@
 				A10000000000000000000002 /* LayoutOverlayView.swift in Sources */,
 				A10000000000000000000003 /* OverlayWindowController.swift in Sources */,
 				A10000000000000000000004 /* WindowDragMonitor.swift in Sources */,
+				A10000000000000000000005 /* LayoutOverlayGeometry.swift in Sources */,
+				A10000000000000000000006 /* LayoutTargetCardView.swift in Sources */,
+				A10000000000000000000007 /* AppLanguage.swift in Sources */,
+				A10000000000000000000008 /* L10n.swift in Sources */,
+				A10000000000000000000009 /* MenuContentView.swift in Sources */,
+				A1000000000000000000000A /* MenuPanelGeometry.swift in Sources */,
+				A1000000000000000000000B /* TahoePillSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		B30000000000000000000001 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B20000000000000000000002 /* en */,
+				B20000000000000000000003 /* fr */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		3590F05C2ABF90E768D63BD2 /* Debug */ = {
@@ -298,14 +343,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 113;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.layouts.macapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -316,14 +361,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 105;
+				CURRENT_PROJECT_VERSION = 113;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.5;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.layouts.macapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

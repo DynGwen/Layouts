@@ -12,6 +12,9 @@ final class AppPreferences: ObservableObject {
 
   private let defaults: UserDefaults
 
+  /// Fixed by the FR or EN edition; old saved language preferences are ignored.
+  let language: AppLanguage
+
   @Published var margin: Double {
     didSet {
       defaults.set(margin, forKey: Key.margin)
@@ -32,6 +35,8 @@ final class AppPreferences: ObservableObject {
 
   init(defaults: UserDefaults = .standard) {
     self.defaults = defaults
+
+    language = AppLanguage.edition()
 
     let storedMargin: Double
     if defaults.object(forKey: Key.margin) == nil {
