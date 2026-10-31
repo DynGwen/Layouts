@@ -1,6 +1,4 @@
-# Layouts 1.1.4 — Édition française
-
-Cette archive compile l’édition française, avec le fond des quatre visuels transparent et les motifs d’origine. L’interface reste en français quelle que soit la langue de macOS.
+# Layouts 1.1.4
 
 Layouts organise les fenêtres du Mac par glisser-déposer. Déplacez une fenêtre sur l’une des quatre cibles flottantes et relâchez la souris pour appliquer la disposition.
 

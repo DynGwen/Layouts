@@ -1,6 +1,4 @@
-# Layouts 1.1.4 — French edition
-
-This archive builds the French interface with transparent card backgrounds and the original opaque motifs. The interface stays in French regardless of the macOS language. See [the French instructions](README.fr.md).
+# Layouts 1.1.4 — English edition
 
 Layouts arranges Mac windows by drag and drop. Move a window over one of the four floating targets and release to apply the layout.
 

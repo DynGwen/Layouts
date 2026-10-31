@@ -1,4 +1,4 @@
-# Validation — Layouts 1.1.4 — Édition française
+# Validation — Layouts 1.1.4
 
 L’environnement de préparation est sous Linux, sans Swift, Xcode ni SDK macOS. Aucun exécutable macOS n’est fourni. La compilation native et les essais visuels restent à effectuer sur un Mac.
 
