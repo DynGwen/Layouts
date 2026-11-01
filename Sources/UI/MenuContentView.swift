@@ -122,13 +122,65 @@ private struct MenuSurfaceModifier: ViewModifier {
 
   @ViewBuilder
   func body(content: Content) -> some View {
-    let shape = RoundedRectangle(cornerRadius: 16, style: .continuous)
+    let shape = RoundedRectangle(
+      cornerRadius: MenuWindowAppearance.cornerRadius, style: .continuous
+    )
     if reduceTransparency {
       content.background(Color(nsColor: .windowBackgroundColor), in: shape)
+        .background(MenuWindowBridge().frame(width: 0, height: 0))
     } else if #available(macOS 26.0, *) {
+      // Match EvniaControl's standard glass surface and window clipping.
       content.glassEffect(.regular, in: shape)
+        .clipShape(shape)
+        .background(MenuWindowBridge().frame(width: 0, height: 0))
     } else {
       content.background(.regularMaterial, in: shape)
+        .clipShape(shape)
+        .background(MenuWindowBridge().frame(width: 0, height: 0))
     }
+  }
+}
+
+@MainActor
+private enum MenuWindowAppearance {
+  static let cornerRadius: CGFloat = 16
+
+  static func apply(to window: NSWindow) {
+    window.isOpaque = false
+    window.backgroundColor = .clear
+
+    guard let frameView = window.contentView?.superview else {
+      applyCorners(to: window.contentView)
+      return
+    }
+    applyCorners(to: frameView)
+  }
+
+  private static func applyCorners(to view: NSView?) {
+    guard let view else { return }
+    view.wantsLayer = true
+    view.layer?.cornerRadius = cornerRadius
+    view.layer?.cornerCurve = .continuous
+    view.layer?.masksToBounds = true
+  }
+}
+
+@MainActor
+private final class MenuWindowProbe: NSView {
+  override func viewDidMoveToWindow() {
+    super.viewDidMoveToWindow()
+    guard let window else { return }
+    MenuWindowAppearance.apply(to: window)
+  }
+}
+
+private struct MenuWindowBridge: NSViewRepresentable {
+  func makeNSView(context: Context) -> NSView {
+    MenuWindowProbe(frame: .zero)
+  }
+
+  func updateNSView(_ nsView: NSView, context: Context) {
+    guard let window = nsView.window else { return }
+    MenuWindowAppearance.apply(to: window)
   }
 }

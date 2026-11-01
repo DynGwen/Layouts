@@ -1,4 +1,6 @@
-# Layouts 1.1.4
+# Layouts 1.1.4 — Édition anglaise
+
+Cette archive compile l’édition anglaise, avec les miniatures 16:10 sans libellés et le panneau de menu assorti à EvniaControl. L’interface reste en anglais quelle que soit la langue de macOS.
 
 Layouts organise les fenêtres du Mac par glisser-déposer. Déplacez une fenêtre sur l’une des quatre cibles flottantes et relâchez la souris pour appliquer la disposition.
 
@@ -38,15 +40,13 @@ Le script copie uniquement la traduction de l’édition dans l’application. L
 
 Les cibles suivent l’écran du pointeur et respectent le Dock et la barre des menus. Les fenêtres soumises à une taille minimale sont repositionnées après redimensionnement.
 
-## Fond transparent des quatre visuels
-
-Le fond de chacune des quatre cartes flottantes (Plein écran, Gauche, Droite et Centré) utilise le verre transparent `clear` sur macOS 26 et ultérieur. Les motifs conservent exactement leur dessin d’origine : gris clair opaque (#CCCCCC), mêmes contours et même couleur d’accent au survol. Les légendes sont inchangées. Le fond du menu reste celui d’origine.
-
-**Augmenter le contraste** rétablit le matériau `regular` pour les fonds des cartes ; **Réduire la transparence** rétablit leur fond opaque. Les anciens systèmes conservent leur matériau de repli. Le rendu reste à vérifier sur un Mac.
+Les quatre cibles affichent uniquement leur miniature d’écran au format 16:10, centrée dans la carte, sans les mentions « Plein écran », « Gauche », « Droite » et « Centré ». La taille des cartes est conservée. Leurs noms restent disponibles pour VoiceOver.
 
 ## Liquid Glass et accessibilité
 
-Les cibles et le menu utilisent Liquid Glass sur macOS 26 et 27. Le composant des curseurs est repris d’EvniaControl, avec un garde de disponibilité pour les anciens systèmes. Les réglages de transparence, de contraste et de réduction des animations sont respectés. Des matériaux de repli permettent de conserver macOS 13 comme version minimale.
+Les fonds des quatre cibles utilisent la variante transparente `clear` de Liquid Glass sur macOS 26 et 27, pour laisser apparaître le bureau et les fenêtres derrière eux, dans l’esprit du Dock. Le panneau sous la barre des menus reprend le verre `regular` d’EvniaControl, plus dense, avec un rayon de 16 points et une découpe arrondie du contenu et du cadre de fenêtre. Le rendu exact dépend de macOS et reste à vérifier sur un Mac. Les miniatures restent gris clair et le survol utilise la couleur d’accent.
+
+L’option système **Augmenter le contraste** rétablit le verre `regular`, plus dense, pour les cibles ; le menu utilise déjà ce style. **Réduire la transparence** utilise un fond opaque. Ces changements sont pris en compte pendant l’utilisation. Le composant des curseurs est repris d’EvniaControl, avec un garde de disponibilité pour les anciens systèmes. La réduction des animations est respectée. Des matériaux de repli permettent de conserver macOS 13 comme version minimale.
 
 Au premier lancement, autoriser Layouts dans **Réglages Système → Confidentialité et sécurité → Accessibilité**. L’enregistrement de l’écran n’est pas requis. Les cibles ne prennent pas le focus et laissent passer le glissement.
 

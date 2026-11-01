@@ -55,9 +55,10 @@ final class LayoutTargetCardView: NSView {
       background = solid
     } else if #available(macOS 26.0, *) {
       let glass = NSGlassEffectView(frame: bounds)
-      // Only the backing of each card is transparent. Its original opaque
-      // layout motif is drawn unchanged by LayoutTargetPreviewView.
+      // Clear glass lets the desktop show through, like a floating Dock surface.
+      // Keep the denser material when the user requests stronger contrast.
       glass.style = increaseContrast ? .regular : .clear
+      glass.tintColor = nil
       glass.cornerRadius = 15
       // The non-activating overlay must pass all input to the dragged window.
       // Hover feedback is drawn from global mouse events, rather than clicks.
@@ -137,10 +138,15 @@ private final class LayoutTargetPreviewView: NSView {
     outline.lineWidth = isHovered || increaseContrast ? 2 : 1
     outline.stroke()
 
-    let showsLabel = bounds.height >= 64
+    // Fit a 16:10 screen inside the card without stretching its proportions.
+    let screenAspectRatio: CGFloat = 16.0 / 10.0
+    let available = bounds.insetBy(dx: 18, dy: 10)
+    let previewWidth = min(available.width, available.height * screenAspectRatio)
+    let previewHeight = previewWidth / screenAspectRatio
     let miniature = CGRect(
-      x: 18, y: showsLabel ? 12 : 10,
-      width: bounds.width - 36, height: bounds.height - (showsLabel ? 40 : 20)
+      x: bounds.midX - previewWidth / 2,
+      y: bounds.midY - previewHeight / 2,
+      width: previewWidth, height: previewHeight
     )
     let screenPath = NSBezierPath(roundedRect: miniature, xRadius: 5, yRadius: 5)
     diagramColor.setStroke()
@@ -174,18 +180,5 @@ private final class LayoutTargetPreviewView: NSView {
       fillColor.setFill()
       NSBezierPath(roundedRect: target, xRadius: 3, yRadius: 3).fill()
     }
-
-    guard showsLabel else { return }
-    let paragraph = NSMutableParagraphStyle()
-    paragraph.alignment = .center
-    paragraph.lineBreakMode = .byTruncatingTail
-    (action.displayName(in: AppPreferences.shared.language) as NSString).draw(
-      in: CGRect(x: 6, y: bounds.height - 22, width: bounds.width - 12, height: 16),
-      withAttributes: [
-        .font: NSFont.systemFont(ofSize: 11, weight: isHovered ? .semibold : .medium),
-        .foregroundColor: NSColor.labelColor,
-        .paragraphStyle: paragraph
-      ]
-    )
   }
 }

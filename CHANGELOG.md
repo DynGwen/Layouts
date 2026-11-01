@@ -1,12 +1,42 @@
 # Changelog
 
-## Unreleased — Transparent card backgrounds, original motifs
+## Unreleased — Updated English edition
 
-- Use clear Liquid Glass only for the backgrounds of the four floating layout cards. Keep the menu background and window controllers unchanged.
-- Restore the original motif drawing code exactly, including opaque light-gray fills (#CCCCCC), outlines, captions, geometry and accent-colored hover.
-- Use regular card backgrounds for Increase Contrast and opaque card backgrounds for Reduce Transparency. Refresh the card material when either setting changes.
+- Fix the application edition and Xcode development region to English, regardless of system language or older saved language preferences.
+- Include all 20 English translations and keep the same application sources as the latest French edition: caption-free 16:10 targets, unchanged card sizes, and the EvniaControl-style regular glass menu panel.
 
 Native compilation and visual QA remain pending on a Mac.
+
+## Unreleased — Menu surface matching EvniaControl
+
+- Use the same regular Liquid Glass surface as EvniaControl 1.0.35 instead of clear glass for the menu panel.
+- Match its 16-point continuous corners, SwiftUI clipping, transparent window background, and window-frame layer clipping. Apply the window treatment when the hosting view joins a window and when SwiftUI updates it.
+- Keep the opaque Reduce Transparency surface and the macOS 13–15 fallback material. The approved 16:10 target diagrams are preserved.
+
+The reference source and resulting source diff are reviewed. Native compilation and side-by-side visual QA remain pending on a Mac.
+
+## Unreleased — 16:10 screen previews
+
+- Fit each screen diagram to a fixed 16:10 aspect ratio and center it within its card.
+- Preserve the card sizes and drop zones, including on smaller displays. Keep the diagrams without captions.
+
+Native compilation and visual QA remain pending on a Mac.
+
+## Unreleased — Layout previews without captions
+
+- Remove the visible Full Screen, Left, Right, and Centered captions from all four floating targets.
+- Center each diagram vertically using equal top and bottom insets, including on smaller cards.
+- Keep localized accessibility names for VoiceOver, layout actions, and hover feedback.
+
+Native compilation and visual QA remain pending on a Mac.
+
+## Unreleased — Transparent glass backgrounds
+
+- Use the native clear Liquid Glass variant for the four floating layout targets and the menu, allowing more of the desktop and underlying windows to show through.
+- Keep regular glass when Increase Contrast is enabled and the opaque background when Reduce Transparency is enabled. Update target materials immediately when either accessibility setting changes.
+- Preserve the light-gray layout diagrams, accent-colored hover feedback, slider appearance, and macOS 13–15 fallback materials.
+
+Native compilation and visual QA remain pending on a Mac. This is a transparent glass treatment inspired by the Dock; an identical rendering is not guaranteed.
 
 ## 1.1.4 — Menu bar toggle and light-gray previews
 

@@ -1,26 +1,23 @@
-# Validation — Layouts 1.1.4
+# Validation — Layouts 1.1.4 — English edition
 
-L’environnement de préparation est sous Linux, sans Swift, Xcode ni SDK macOS. Aucun exécutable macOS n’est fourni. La compilation native et les essais visuels restent à effectuer sur un Mac.
+This source archive builds the English edition. `LayoutsLanguage`, `CFBundleDevelopmentRegion`, and `CFBundleLocalizations` are set to `en`; the Xcode development region is also `en`. The edition determines the interface language, regardless of macOS language or a language preference saved by an older release.
 
-## Modification actuelle — fond des quatre visuels
+## Checks performed
 
-Seul le fond des quatre cartes flottantes passe au matériau transparent `clear`. Le code qui dessine les motifs a été rétabli à l’identique par comparaison octet par octet avec l’archive initiale : gris clair opaque (#CCCCCC), contours, légendes et survol d’origine. Le fond du menu et les contrôleurs de fenêtres correspondent également exactement aux sources initiales.
+- The 20 English translation keys match the declared localization keys and the French table. Both tables remain available in the source project for the localization smoke tests. The shell build packages only the English table.
+- All Swift application sources, tests, and build scripts are identical to the latest French edition. Edition-specific changes are limited to bundle metadata, the Xcode development region, and documentation.
+- The English table covers the menu, sliders, options, accessibility names, and permission help. Target names remain available to VoiceOver without appearing on the diagrams.
+- Shell script syntax, archive integrity, original file structure, and file permissions are checked.
 
-L’augmentation du contraste utilise un fond `regular` pour les cartes ; la réduction de transparence utilise un fond opaque. Ces réglages modifient le fond des cartes. Les motifs conservent leur remplissage opaque d’origine.
+This preparation environment runs Linux without Swift, Xcode, or a macOS SDK. Native compilation, Swift smoke tests, and visual checks have not been performed. No compiled macOS application is included.
 
-Contrôles de cette modification : comparaison des sources (un seul fichier Swift modifié, `LayoutTargetCardView.swift`), restauration exacte du dessin des motifs et du menu, syntaxe des trois scripts, métadonnées de langue, 20 clés de traduction et intégrité des deux archives. Les sources Swift sont identiques dans les deux éditions. Compilation, tests Swift et rendu natif restent à vérifier sur Mac.
+## Appearance preserved
 
-Sur Mac, vérifier que le bureau et les fenêtres se voient à travers les fonds des quatre cartes, tandis que les motifs gardent le même gris opaque et le même survol qu’avant. Vérifier le menu, le glisser-déposer, les modes clair et sombre et le basculement des deux réglages d’accessibilité pendant l’affichage.
+The four target diagrams retain a fixed 16:10 screen aspect ratio, centered inside cards of the approved size. Full Screen, Left, Right, and Centered captions remain hidden. The targets retain clear glass, light-gray diagrams, and accent-colored hover feedback.
 
-## Vérifications historiques — version 1.1.4
+The menu panel uses EvniaControl 1.0.35's regular Liquid Glass surface, 16-point continuous corners, SwiftUI clipping, and window-frame clipping. Reduce Transparency uses an opaque background. macOS 13–15 retain fallback materials.
 
-Les vérifications ci-dessous concernent la version de départ ; elles n’ont pas toutes été répétées pour cette correction.
-
-Les contrôles statiques couvrent les scripts, les métadonnées, les références des sources et ressources du projet Xcode, les tables de traduction et l’intégrité des archives. Le composant TahoePillSlider est comparé au fichier d’EvniaControl ; seul le garde de disponibilité macOS 26 est ajouté. Les options sont vérifiées pour contenir exactement deux cases, sans curseur, sélecteur de langue ni bouton de permission.
-
-Les tests simulés du script couvrent l’absence de xcodebuild, les SDK trop anciens, une édition invalide, les erreurs de compilation et de signature, l’absence d’exécutable et la conservation de l’application précédente. Les deux architectures et éditions sont assemblées avec leurs ressources respectives. Une variable LAYOUTS_LANGUAGE héritée est ignorée ; l’édition est fixée dans les métadonnées du paquet.
-
-## À exécuter sur Mac
+## Run on a Mac
 
 ```bash
 ./test-geometry.sh
@@ -28,20 +25,15 @@ Les tests simulés du script couvrent l’absence de xcodebuild, les SDK trop an
 ./build.sh && open build/Layouts.app
 ```
 
-Les tests Swift vérifient les calculs de disposition, le placement des cibles, du menu et des options, les traductions et les métadonnées de langue fixe. Ils ne sont pas exécutables ici en l’absence de swiftc.
+The build requires Swift 6.4 or later and the macOS 27 SDK or later, available through `xcrun`. See [README.md](README.md) for build instructions.
 
-## Essais restant à effectuer
+## Manual checks pending
 
-- Depuis une autre application, cliquer une fois sur l’icône de Layouts : le panneau doit s’ouvrir immédiatement. Cliquer à nouveau : il doit se fermer sans se rouvrir. Répéter plusieurs fois, lentement puis rapidement, et après avoir utilisé un curseur du panneau.
-- Vérifier la fermeture par Échap, un clic extérieur (dans une autre application ou dans les options de Layouts) et le changement d’application avec Commande-Tab. Le clic suivant sur l’icône doit rouvrir le panneau. Répéter après masquage puis réaffichage de l’icône et sur chaque écran.
-- Vérifier que les deux curseurs du menu ont la même piste et poignée que dans EvniaControl. Régler la marge de 0 à 40 points et la taille de 30 à 100 %, avec les pas prévus.
-- Déplacer une fenêtre sur chacune des quatre cibles et vérifier les aperçus et les positions.
-- Vérifier que les formes et contours des quatre miniatures sont gris clair (#CCCCCC) en modes clair et sombre, y compris avec réduction de transparence et augmentation du contraste. Au survol, la forme doit prendre la couleur d’accent.
-- Ouvrir les options : seules les deux cases de visibilité de l’icône et de lancement à l’ouverture de session doivent apparaître. Les déplacer, fermer et rouvrir : la fenêtre doit être recentrée sur l’écran du pointeur.
-- Vérifier le lancement à l’ouverture de session et le masquage de l’icône. Relancer l’application pour rouvrir les options quand l’icône est masquée.
-- Vérifier la version FR sur un système anglais et la version EN sur un système français. Une ancienne préférence de langue doit rester sans effet. Aucun sélecteur de langue ne doit apparaître.
-- Vérifier que l’aide d’autorisation reste dans le menu quand Accessibilité manque, puis que l’indicateur change après autorisation.
-- Répéter en modes clair et sombre, avec réduction de transparence, augmentation du contraste et réduction des animations. Vérifier aussi le matériau de repli sur macOS 13–15 et Liquid Glass sur macOS 26–27.
-- Vérifier les écrans multiples, le placement du menu aux bords de l’écran et les changements de position du Dock.
+- On a Mac configured in French, confirm that the menu, options, permission help, and VoiceOver target names are in English. Repeat with an older saved language preference.
+- Compare the menu panel with EvniaControl above the same background, with the same system appearance. Check the glass and rounded corners in light and dark modes.
+- Open and close the menu using the status icon, an outside click, Escape, and application switching. Check placement near screen edges and when permission help appears.
+- Adjust both sliders and verify their displayed values and corresponding layout behavior.
+- Drag a window onto each target. Check the 16:10 diagrams, hover feedback, and final window positions on multiple displays.
+- Check Increase Contrast, Reduce Transparency, Reduce Motion, launch at login, and hiding and restoring the menu bar icon.
 
-L’absence d’utilisation de @State est contrôlée dans les sources. La compilation directe avec swiftc évite le contrôle de présence de Xcode complet ajouté puis retiré dans les versions précédentes. Ces vérifications statiques et simulées ne prouvent pas que le code compile ni que le rendu macOS est correct.
+Earlier changes and validation limitations are recorded in [CHANGELOG.md](CHANGELOG.md).

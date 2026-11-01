@@ -1,4 +1,6 @@
-# Layouts 1.1.4
+# Layouts 1.1.4 — English edition
+
+This archive builds the English interface, with caption-free 16:10 target diagrams and the menu panel surface matching EvniaControl. The interface stays in English regardless of the macOS language. See [the French instructions](README.fr.md).
 
 Layouts arranges Mac windows by drag and drop. Move a window over one of the four floating targets and release to apply the layout.
 
@@ -36,15 +38,13 @@ The shell build copies only the edition's localization into the app. Both transl
 
 The destination display follows the pointer. `NSScreen.visibleFrame` respects the menu bar and Dock. Apps can enforce their own minimum window sizes; Layouts then corrects the layout anchor.
 
-## Transparent backgrounds for the four visuals
-
-The background of each floating card (Full Screen, Left, Right and Centered) uses `clear` glass on macOS 26 and later. The motifs retain their original drawing exactly: opaque light gray (#CCCCCC), the same outlines, and the original accent-colored hover. Captions are unchanged. The menu keeps its original background.
-
-Increase Contrast restores `regular` material for the card backgrounds; Reduce Transparency restores their opaque background. Older systems retain their fallback material. Rendering still needs verification on a Mac.
+The four targets show only their centered 16:10 screen diagrams, without visible Full Screen, Left, Right, or Centered captions. The card sizes are preserved. Their names remain available to VoiceOver.
 
 ## Liquid Glass and accessibility
 
-On macOS 26 and later, including macOS 27, the floating targets and menu use native Liquid Glass effects. The slider component is reused from EvniaControl, with an availability guard for older systems. macOS 13–15 use fallback materials. Reduce Transparency, Increase Contrast and Reduce Motion are respected. The overlay passes drag input through without taking focus.
+On macOS 26 and later, including macOS 27, the four floating targets use the native `clear` Liquid Glass variant. Their transparent backgrounds let the desktop and underlying windows show through, for a Dock-inspired appearance. The menu panel matches EvniaControl's denser `regular` glass surface, with a 16-point corner radius and rounded clipping for both its content and window frame. Exact rendering depends on macOS and still requires visual verification on a Mac. Layout diagrams remain light gray, with accent-colored hover feedback.
+
+Increase Contrast restores denser `regular` glass for the targets; the menu already uses this style. Reduce Transparency uses an opaque background. Both settings update the surfaces while the app is running. The slider component is reused from EvniaControl, with an availability guard for older systems. macOS 13–15 retain their fallback materials and Reduce Motion is respected. The overlay passes drag input through without taking focus.
 
 On first launch, allow Layouts in **System Settings → Privacy & Security → Accessibility**. Screen Recording permission is not required.
 
