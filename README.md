@@ -1,4 +1,4 @@
-# Layouts 1.1.4 — English edition
+# Layouts 1.1.4
 
 This archive builds the English interface, with caption-free 16:10 target diagrams and the menu panel surface matching EvniaControl. The interface stays in English regardless of the macOS language. See [the French instructions](README.fr.md).
 
