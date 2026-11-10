@@ -1,9 +1,6 @@
 import SwiftUI
 
 struct TahoePillSlider: View {
-    @Environment(\.colorScheme) private var colorScheme
-    @Environment(\.colorSchemeContrast) private var contrast
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Binding var value: Double
 
     let range: ClosedRange<Double>
@@ -138,21 +135,16 @@ struct TahoePillSlider: View {
         }
     }
 
-    @ViewBuilder
+    // Solid white slider thumb in light and dark appearance. A subtle outline
+    // gives it definition over the light track, without a transparent glass fill.
     private var thumb: some View {
-        if #available(macOS 26.0, *), !reduceTransparency, contrast != .increased {
-            let shape = RoundedRectangle(cornerRadius: 8, style: .continuous)
-            shape.fill(Color.clear)
-                .glassEffect(.regular.interactive(isEnabled), in: shape)
-        } else {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(colorScheme == .dark ? Color.white : Color(nsColor: .controlBackgroundColor))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .stroke(Color.secondary.opacity(0.22), lineWidth: 1)
-                )
-                .shadow(color: Color.black.opacity(0.12), radius: 2, y: 1)
-        }
+        RoundedRectangle(cornerRadius: 8, style: .continuous)
+            .fill(Color.white)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .strokeBorder(Color.black.opacity(0.18), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.16), radius: 2, y: 1)
     }
 
     private func normalized(

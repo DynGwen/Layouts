@@ -98,10 +98,11 @@ struct MenuContentView: View {
         Spacer(minLength: 8)
         Text(value)
           .monospacedDigit()
-          .foregroundStyle(.secondary)
+          // Use the adaptive, fully opaque label color for both % and pt values.
+          .foregroundStyle(Color(nsColor: .labelColor))
           .fixedSize()
       }
-      // Reuse EvniaControl's system-style track and Liquid Glass thumb.
+      // Keep the compact track while using a solid white thumb.
       TahoePillSlider(value: binding, range: range, step: step)
         .accessibilityLabel(title)
         .accessibilityValue(spokenValue)
